@@ -72,12 +72,12 @@ usage() {
 	echo "Usage: $1 <iOS_6.1.3.ipsw> [jailbreak | reset]"
 }
 
-if [ "x$1" = "x" ]; then
+if [ -z "$1" ]; then
 	usage "$0"
 	exit 1
 fi
 
-if [ "x$2" != "x" ] && [ "$2" != "jailbreak" ] && [ "$2" != "reset" ] ;then
+if [ -n "$2" ] && [ "$2" != "jailbreak" ] && [ "$2" != "reset" ] ;then
 	usage "$0"
 	exit 1
 fi
