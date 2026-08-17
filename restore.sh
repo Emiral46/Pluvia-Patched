@@ -68,12 +68,12 @@ _canonicalize_file_path() {
     (cd "$dir" 2>/dev/null && printf '%s/%s\n' "$(pwd -P)" "$file")
 }
 
-if [ "x`uname`" != "xDarwin" ] ; then
+if [ `uname` != "Darwin" ] ; then
 	echo "Only Mac OS X is supported."
 	exit 1
 fi
 
-if [ "x`uname -m`" = "xi386" ] ; then
+if [ `uname -m` = "i386" ] ; then
 	echo "Only 64-bit Macs are supported."
 	exit 1
 fi
@@ -91,7 +91,7 @@ _exit() {
 	exit 1
 }
 
-if [ "x$1" = "x" ]; then
+if [ -z "$1" ]; then
 	usage "$0"
 	exit 1
 fi
@@ -100,7 +100,7 @@ cd "$(dirname "$0")"
 
 trap _exit SIGINT SIGTERM
 
-if [ ! -f "`realpath "$1"`" ] ; then
+if [ ! -f `realpath "$1"` ] ; then
 	echo "Can't read IPSW file: $1"
 	exit 1
 fi
@@ -137,9 +137,7 @@ fi
 rm -rf "`realpath "$1" | sed 's/\.ipsw$//'`"
 killall iTunes iTunesHelper >/dev/null 2>&1 || true
 killall -STOP AMPDeviceDiscoveryAgent >/dev/null 2>&1 || true
-cd tools/ipwndfu
-arch -x86_64 /usr/bin/python ./ipwndfu -p
-cd ../..
+./tools/ipwnder -p
 echo
 echo 'IMPORTANT: an "FDR" error is normal, ignore it'
 echo
