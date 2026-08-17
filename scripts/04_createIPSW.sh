@@ -1,5 +1,5 @@
 #!/bin/bash -e
-if [ "x$2" = "xreset" ] ; then
+if [ "$2" = "reset" ] ; then
 echo "Creating NVRAM reset IPSW (this will take several minutes)"
 ./tools/ipsw "$1" work/tmp.ipsw -ramdiskgrow 600 >/dev/null
 cd work
@@ -12,15 +12,9 @@ chmod 0400 iBEC
 rm -f iBEC
 cd ..
 extras=616.tar
-if [ "x$2" = "xjailbreak" ] ; then
-	extras="616.tar jailbreak/Cydia.tar"
-	iosver=`cat work/pvers`
-	if [ $iosver = 6.1.3 ]; then
-		echo Installing iOS $iosver jailbreak
-		extras="$extras jailbreak/p0sixspwn.tar jailbreak/fstab_rw.tar"
-	else
-		echo "WARNING: Pluvia can't jailbreak iOS $iosver yet. Skipping."
-	fi
+if [ "$2" = "jailbreak" ] ; then
+	echo "Installing iOS 6.1.6 jailbreak"
+	extras="616.tar jailbreak/Cydia.tar jailbreak/p0sixspwn.tar jailbreak/fstab_rw.tar"
 fi
 ./tools/ipsw "$1" work/tmp.ipsw -ramdiskgrow 600 work/iBEC.tar $extras >/dev/null
 rm -f work/iBEC.tar
@@ -45,11 +39,11 @@ MountRamdisk="$(hdiutil mount ramdisk.dmg | awk -F '\t' '{print $3}')"
 mv "$MountRamdisk/sbin/reboot" "$MountRamdisk/sbin/reboot.real"
 rda=ramdisk_add
 name=
-if [ "x$2" = "xreset" ] ; then
+if [ "$2" = "reset" ] ; then
 	rda=ramdisk_add_reset
 	name=_ResetNVRAM
 fi
-if [ "x$2" = "xjailbreak" ] ; then
+if [ "$2" = "jailbreak" ] ; then
 	name=_JB
 fi
 find ../$rda -type f -not -name '.*' | while read f; do
@@ -59,7 +53,7 @@ find ../$rda -type f -not -name '.*' | while read f; do
 done
 hdiutil detach "$MountRamdisk" >/dev/null
 ../tools/xpwntool ramdisk.dmg $rramdisk -t $rramdisk.orig
-if [ "x$2" = "xreset" ]; then
+if [ "$2" = "reset" ]; then
 	echo Cleaning IPSW
 	zip -qq -d tmp.ipsw '*.dmg' 'Firmware/ICE3*'
 	rm -f `cat sysimg`
