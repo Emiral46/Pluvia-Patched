@@ -19,45 +19,17 @@ build=`get_key Restore.plist ProductBuildVersion`
 bcfg=`get_key Restore.plist BoardConfig`
 rramdisk=`cat Restore.plist | grep -A999 '>RestoreRamDisks<' | grep -B999 -m1 '</dict>' | grep -A1 '>User<' | grep -F '.dmg<' | cut -d '>' -f 2 | cut -d '<' -f1`
 sysimg=`cat Restore.plist | grep -A999 '>SystemRestoreImages<' | grep -B999 -m1 '</dict>' | grep -A1 '>User<' | grep -F '.dmg<' | cut -d '>' -f 2 | cut -d '<' -f1`
-if [ "x$ptype" != "xiPhone3,1" ] ; then
-	echo "Only the iPhone3,1 is currently supported."
-	rm -f Restore.plist
-	exit 1
-fi
 bndl=../FirmwareBundles/Down_${ptype}_${pvers}_${build}.bundle
 if [ ! -d "$bndl" ]; then
 	echo "Please use the iPhone3,1 iOS 6.1.3 IPSW as input."
 	rm -f Restore.plist
 	exit 1
 fi
-if [ "x$2" != "xreset" ]; then
-if [ ! -f keys_${ptype}_${build}.txt ] ; then
-echo "Getting iBoot keys for ${ptype} iOS $pvers ($build)"
-page_name=`curl -sL "https://www.theiphonewiki.com/wiki/Category:IPhone_4_(${ptype})_Key_Page" | grep "_${build}_(${ptype})" | cut -d '"' -f 2`
-if [ "x$page_name" = x ] ; then
-	echo "Can't find key page for ${ptype} iOS ${pvers} ($build) on iPhone Wiki"
-	rm -f Restore.plist
-	exit 1
-fi
-keypg="https://www.theiphonewiki.com$page_name"
-curl -sL "$keypg" | grep keypage-iboot- | cut -d '"' -f 2-3 > keys_${ptype}_${build}.txt
-else
-echo "Using cached iBoot keys for ${ptype} iOS $pvers ($build)"
-fi
-key=`cat keys_${ptype}_${build}.txt | grep iboot-key | cut -d '>' -f 2 | cut -d '<' -f 1`
-if [ "x$key" = x ] ; then
-	echo "Can't find iBoot key for ${ptype} iOS ${pvers} ($build)"
-	rm -f Restore.plist keys_${ptype}_${build}.txt
-	exit 1
-fi
-iv=`cat keys_${ptype}_${build}.txt | grep iboot-iv | cut -d '>' -f 2 | cut -d '<' -f 1`
-if [ "x$iv" = x ] ; then
-	echo "Can't find iBoot IV for ${ptype} iOS ${pvers} ($build)"
-	rm -f Restore.plist keys_${ptype}_${build}.txt
-	exit 1
-fi
-echo $iv > iv
-echo $key > key
+if [ "$2" != "reset" ]; then
+	iv='b559a2c7dae9b95643c6610b4cf26dbd'
+	key='3dbe8be17af793b043eed7af865f0b843936659550ad692db96865c00171959f'
+	echo $iv > iv
+	echo $key > key
 fi
 echo $ptype > ptype
 echo $pvers > pvers
