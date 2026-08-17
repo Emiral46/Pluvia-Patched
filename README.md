@@ -1,7 +1,7 @@
-Important Notice
+About This Patch
 ================
 
-Development of Pluvia is now discontinued, and no support is available for it. It is not compatible with macOS 12.3 Monterey or newer versions.
+This patch replaces ipwndfu with ipwnder, dropping the python 2 requirement altogether, allowing it to properly function on 12.3 and above. This patch also locally stores the essential iboot keys for 6.1.3 locally rather than attempting to download from theiphonewiki, which is also dead and replaced by TheAppleWiki. This patch only supports iPhone3,1 restores to ios 6.1.6. For downgrades to other ios versions, please use Legacy-iOS-Kit instead.
 
 What is Pluvia?
 ===============
