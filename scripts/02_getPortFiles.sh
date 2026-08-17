@@ -19,12 +19,12 @@ mv dyld_shared_cache_armv7 dyld_shared_cache_armv7_i4
 unzip -qq -j ../6163gs.zip AssetData/payload/replace/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7
 for i in `cat ../data/dylibs.txt`; do
 mkdir -p AssetData/payload/replace/`dirname $i`
-../tools/decache/decache -c dyld_shared_cache_armv7 -x /$i -o AssetData/payload/replace/$i >/dev/null
+../tools/decache -c dyld_shared_cache_armv7 -x /$i -o AssetData/payload/replace/$i >/dev/null
 ../tools/ldid -S AssetData/payload/replace/$i
 done
 for i in `cat ../data/dylibs4.txt`; do
 mkdir -p AssetData/payload/replace/`dirname $i`
-../tools/decache/decache -c dyld_shared_cache_armv7_i4 -x /$i -o AssetData/payload/replace/$i >/dev/null
+../tools/decache -c dyld_shared_cache_armv7_i4 -x /$i -o AssetData/payload/replace/$i >/dev/null
 ../tools/ldid -S AssetData/payload/replace/$i
 done
 cd AssetData/payload/replace
