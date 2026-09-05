@@ -76,9 +76,6 @@ libusb and pyusb
 
 Licensing notes
 ===============
-The ParrotGeek Software logo shown during the restore process is NOT licensed under the GPL and must be removed in any publicly released modifications of this project.
-
-Furthermore, any publicly released modifications of this project must not use the word Pluvia anywhere in their name, or purport to be endorsed by ParrotGeek Software.
 
 The code and files created by @dora2-iOS are licensed under the GPLv3 or the MIT License, and were present in commit 316d2cdc5351c918e9db9650247b91632af3f11f of https://github.com/dora2-iOS/ch3rryflower, and commits 06262f41d0677feec0f03ff2f0496d63898a346f and 26cb118bde7ad0198df08a2b0af9f319c0de511c of https://github.com/dora2-iOS/s0meiyoshino, which no longer exist publicly.
 
